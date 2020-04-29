@@ -38,7 +38,7 @@ RUN chmod ug+x $INSTALL_DIR/*.sh && \
     $INSTALL_DIR/$CHECK_SPACE_FILE && \
     cd $INSTALL_DIR && \
     yum -y install openssl oracle-database-preinstall-18c && \
-    yum -y localinstall /tmp/rpm/oracle-database.rpm && \
+    yum -y localinstall $INSTALL_FILE_1 && \
     rm -rf /tmp/rpm && \
     rm -rf /var/cache/yum && \
     rm -rf /var/tmp/yum-* && \
