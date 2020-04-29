@@ -21,7 +21,6 @@ ENV ORACLE_BASE=/opt/oracle \
     RUN_FILE="runOracle.sh" \
     PWD_FILE="setPassword.sh" \
     CONF_FILE="oracle-xe-18c.conf" \
-    RPM_FILE="oracle-database-*" \
     CHECK_SPACE_FILE="checkSpace.sh" \
     CHECK_DB_FILE="checkDBStatus.sh" \
     INSTALL_DIR="$HOME/install" \
@@ -31,15 +30,13 @@ ENV PATH=$ORACLE_HOME/bin:$PATH
 
 COPY $CHECK_SPACE_FILE $RUN_FILE $PWD_FILE $CHECK_DB_FILE $CONF_FILE $INSTALL_DIR/
 
-COPY $RPM_FILE /tmp/rpm/oracle-database.rpm
-
 RUN chmod ug+x $INSTALL_DIR/*.sh && \
     sync && \
     $INSTALL_DIR/$CHECK_SPACE_FILE && \
     cd $INSTALL_DIR && \
     yum -y install openssl oracle-database-preinstall-18c && \
+    echo "**** downloading and installing oracle database ****" && \
     yum -y localinstall $INSTALL_FILE_1 && \
-    rm -rf /tmp/rpm && \
     rm -rf /var/cache/yum && \
     rm -rf /var/tmp/yum-* && \
     mkdir -p $ORACLE_BASE/scripts/setup && \
